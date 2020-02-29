@@ -1,6 +1,8 @@
 <meta>
   <script src="Settings.lua" type="shared" cache="false" />
 
+  <script src="Utils.lua" type="server" />
+  
   <script src="Send.lua" type="server" />
     <export function="sendMessage" type="server" />
   <script src="Client.lua" type="client" cache="false" />

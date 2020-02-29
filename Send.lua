@@ -47,7 +47,9 @@ addEventHandler("onResourceStart", resourceRoot,
         for name, data in pairs(Webhooks) do
             WebhookList[name] = WebhookClass(name);
         end;
-        sendMessage("general", "hello dudes.")
+        for index, data in ipairs(CallbackUtils) do
+            loadstring(data)()
+        end;
     end
 );
 
