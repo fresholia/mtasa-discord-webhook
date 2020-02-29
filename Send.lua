@@ -1,27 +1,32 @@
 WebhookList = {};
-WebhookDebug = false; -- true: giving debug messages // false: release mode
+WebhookDebug = true; -- true: giving debug messages // false: release mode
 WebhookClass = setmetatable({
         constructor = function(self, args)
-            self.username = Webhooks.args.username;
-            self.link = Webhooks.args.link;
-            self.avatar = Webhooks.args.avatar;
+            self.username = Webhooks[args].username;
+            self.link = Webhooks[args].link;
+            self.avatar = Webhooks[args].avatar;
             if WebhookDebug then
                 outputDebugString("DiscordWebhook: Created channel '"..args.."'");
             end;
+            return self;
         end;
 
         send = function(self, message)
             local sendOptions = {
-                content = message:gsub("#%x%x%x%x%x%x", ""),
-			    username = self.username,
-                avatar = self.avatar
-			};
+                connectionAttempts = 3,
+                connectTimeout = 5000,
+                formFields = {
+                    content = message:gsub("#%x%x%x%x%x%x", ""),
+                    username = self.username,
+                    avatar = self.avatar
+                }
+            };
             fetchRemote(self.link, sendOptions,
 		        function(responseData)
 		            if WebhookDebug then
                         outputDebugString("DiscordWebhook: "..responseData);
                     end;
-                end;
+                end
 	        );
         end;
     }, {
@@ -42,7 +47,8 @@ addEventHandler("onResourceStart", resourceRoot,
         for name, data in pairs(Webhooks) do
             WebhookList[name] = WebhookClass(name);
         end;
-    end;
+        sendMessage("general", "hello dudes.")
+    end
 );
 
 function sendMessage(channel, message)
@@ -57,5 +63,3 @@ function sendMessage(channel, message)
 end;
 addEvent("discord.sendMessage", true);
 addEventHandler("discord.sendMessage", root, sendMessage);
-
-sendMessage("general", "hello dudes.")
