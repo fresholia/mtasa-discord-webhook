@@ -8,5 +8,6 @@ Webhooks = {
 
 CallbackUtils = {
 	Utils.sendChat("general"), -- Chat flow will be transferred on the channel called ["general"]
-	--Utils.joinQuit("general")
+	Utils.joinQuit("general"),
+	Utils.commandFlow("general")
 }

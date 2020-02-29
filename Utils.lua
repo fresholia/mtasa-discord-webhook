@@ -1,13 +1,13 @@
 Utils = {
-	sendChat = function(self, channel)
+	sendChat = function(channel)
 		addEventHandler("onPlayerChat", root,
 			function(message, type)
-				sendMessage(channel, message);
+				sendMessage(channel, getPlayerName(source).." says: "..message);
 			end
 		);
 	end;
 
-	joinQuit = function(self, channel)
+	joinQuit = function(channel)
 		addEventHandler("onPlayerJoin", root,
 			function()
 				sendMessage(channel, getPlayerName(source).." joined the server.");
@@ -21,7 +21,7 @@ Utils = {
 		);
 	end;
 
-	commandFlow = function(self, channel)
+	commandFlow = function(channel)
 		addEventHandler("onPlayerCommand", root,
 			function(command)
 				sendMessage(channel, getPlayerName(source).." uses the command: /"..command);

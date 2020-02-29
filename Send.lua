@@ -1,5 +1,5 @@
 WebhookList = {};
-WebhookDebug = true; -- true: giving debug messages // false: release mode
+WebhookDebug = false; -- true: giving debug messages // false: release mode
 WebhookClass = setmetatable({
         constructor = function(self, args)
             self.username = Webhooks[args].username;
@@ -11,16 +11,21 @@ WebhookClass = setmetatable({
             return self;
         end;
 
-        send = function(self, message)
+        send = function(self, message, embed)
             local sendOptions = {
                 connectionAttempts = 3,
                 connectTimeout = 5000,
                 formFields = {
                     content = message:gsub("#%x%x%x%x%x%x", ""),
                     username = self.username,
-                    avatar = self.avatar
+                    avatar_url = self.avatar,
+                    --embeds = {}, -- Will be add
                 }
             };
+
+            if embed then
+                sendOptions.formFields.embed = embed;
+            end;
             fetchRemote(self.link, sendOptions,
 		        function(responseData)
 		            if WebhookDebug then
@@ -53,9 +58,9 @@ addEventHandler("onResourceStart", resourceRoot,
     end
 );
 
-function sendMessage(channel, message)
+function sendMessage(channel, message, embed)
     if WebhookList[channel] then
-        WebhookList[channel]:send(message);
+        WebhookList[channel]:send(message, embed);
         if WebhookDebug then
             outputDebugString("DiscordWebhook: Send message '"..message.."' from '"..channel.."' channel.");
         end;
