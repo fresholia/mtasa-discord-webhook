@@ -1,4 +1,5 @@
 WebhookList = {};
+WebhookDebug = false; -- true: giving debug messages // false: release mode
 WebhookClass = setmetatable({
         constructor = function(self, args)
             
@@ -40,7 +41,12 @@ addEventHandler("onResourceStart", resourceRoot,
 function sendMessage(channel, message)
     if WebhookList[channel] then
         WebhookList[channel]:send(message);
+        if WebhookDebug then
+            outputDebugString("DiscordWebhook: Send message '"..message.."' from '"..channel.."' channel.");
+        end;
     else
         outputDebugString("DiscordWebhook: Couldn't find the Discord Webhook Channel.");
     end;
 end;
+addEvent("discord.sendMessage", true);
+addEventHandler("discord.sendMessage", root, sendMessage);
