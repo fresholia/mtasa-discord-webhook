@@ -1,0 +1,6 @@
+<meta>
+  <script src="Settings.lua" type="shared" />
+
+  <script src="Send.lua" type="shared" />
+  <script src="Client.lua" type="shared" />
+</meta>
