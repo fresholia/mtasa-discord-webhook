@@ -2,7 +2,12 @@ WebhookList = {};
 WebhookDebug = false; -- true: giving debug messages // false: release mode
 WebhookClass = setmetatable({
         constructor = function(self, args)
-            
+            self.username = Webhooks.args.username;
+            self.link = Webhooks.args.link;
+            self.avatar = Webhooks.args.avatar;
+            if WebhookDebug then
+                outputDebugString("DiscordWebhook: Created channel '"..args.."'");
+            end;
         end;
 
         send = function(self, message)
@@ -13,7 +18,9 @@ WebhookClass = setmetatable({
 			};
             fetchRemote(self.link, sendOptions,
 		        function(responseData)
-		        
+		            if WebhookDebug then
+                        outputDebugString("DiscordWebhook: "..responseData);
+                    end;
                 end;
 	        );
         end;
@@ -50,3 +57,5 @@ function sendMessage(channel, message)
 end;
 addEvent("discord.sendMessage", true);
 addEventHandler("discord.sendMessage", root, sendMessage);
+
+sendMessage("general", "hello dudes.")
