@@ -4,8 +4,17 @@ WebhookClass = setmetatable({
             
         end;
 
-        send = function()
-        
+        send = function(self, message)
+            local sendOptions = {
+                content = message:gsub("#%x%x%x%x%x%x", ""),
+			    username = self.username,
+                avatar = self.avatar
+			};
+            fetchRemote(self.link, sendOptions,
+		        function(responseData)
+		        
+                end;
+	        );
         end;
     }, {
     __call = function(cls, ...)
@@ -30,8 +39,8 @@ addEventHandler("onResourceStart", resourceRoot,
 
 function sendMessage(channel, message)
     if WebhookList[channel] then
-
+        WebhookList[channel]:send(message);
     else
-        outputDebugString("DiscordWebhook: Couldn't find the Discord Webhook Channel.")
-    end
+        outputDebugString("DiscordWebhook: Couldn't find the Discord Webhook Channel.");
+    end;
 end;
