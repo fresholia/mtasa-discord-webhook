@@ -5,5 +5,5 @@ MTA:SA Discord Webhook Integration
 
 ```lua
   -- Both export:
-  exports.**scriptname**:sendMessage(channel, message)
+  exports["mta-discord-webhook"]:sendMessage(channel, message)
 ```
